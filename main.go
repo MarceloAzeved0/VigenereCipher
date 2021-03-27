@@ -1,7 +1,13 @@
+// Author: Marcelo Bernardy de Azevedo
+
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
-	fmt.Println("hello world")
+	var args = os.Args
+	fmt.Println(args[1])
 }
