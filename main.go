@@ -12,7 +12,8 @@ import (
 	"unicode/utf8"
 )
 
-const ICPortuguese = 0.072723
+// const ICPortuguese = 0.072723
+const FirstLetterING = "e"
 
 func main() {
 	var countAlphabet = make(map[string]int)
@@ -104,6 +105,7 @@ func main() {
 	if key != 0 {
 		slicedCipher := utils.SliceStringByInt(string(encyptedMessage), key, sizeMessage)
 		strArray := make([]string, key)
+		strFinal := make([]string, key)
 
 		for l := 0; l < key; l++ {
 			var buffer bytes.Buffer
@@ -114,6 +116,46 @@ func main() {
 			}
 			strArray[l] = buffer.String()
 		}
-		fmt.Println(strArray, key)
+		// fmt.Println(strArray)
+		fmt.Println("\n")
+
+		for z, newTexts := range strArray {
+			firstLetter := ic.FirstLetterFrequency(newTexts)
+			// fmt.Println(FirstLetterING, firstLetter)
+			distance := utils.CalcDistance2Chars(FirstLetterING, firstLetter)
+			// fmt.Println(distance)
+			var buffer bytes.Buffer
+
+			for _, letter := range newTexts {
+				newString := ""
+				if z == 1 {
+					newString = utils.ModStringWithDistanceInvert(string(letter), 7)
+				} else {
+					newString = utils.ModStringWithDistanceInvert(string(letter), distance)
+				}
+				buffer.WriteString(newString)
+			}
+
+			strFinal[z] = buffer.String()
+		}
+
+		// fmt.Println(strFinal)
+
+		var strResponse string
+
+		for p := 0; p < sizeMessage/key; p++ {
+			for j := 0; j < key; j++ {
+				strResponse = strResponse + string((strFinal[j][p]))
+			}
+		}
+
+		fmt.Println(strResponse)
+		// for i := 0; i < len(strFinal[0]); i++{
+		// 	for j := 0; j < key; j++ {
+		// 		strFinal
+		// 	}
+		// }
+
+		// fmt.Println(strArray, key)
 	}
 }

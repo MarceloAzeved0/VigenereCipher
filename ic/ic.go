@@ -1,7 +1,6 @@
 package ic
 
 import (
-	"bytes"
 	"sort"
 )
 
@@ -59,14 +58,7 @@ func CalcIC(freqLetters map[string]int, size int) (map[string]float64, float64) 
 	return calcIC, ic
 }
 
-func FirstLetterFrequency(arrayCiphers []string, m int) string {
-	var firstString string
-	var buffer bytes.Buffer
-
-	for _, cipherSliced := range arrayCiphers {
-		buffer.WriteString(string(cipherSliced[0]))
-	}
-	firstString = buffer.String()
+func FirstLetterFrequency(firstString string) string {
 	freqLetters := CalcFrequencyLetters(firstString)
 
 	type kv struct {

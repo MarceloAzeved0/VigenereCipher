@@ -2,7 +2,6 @@ package utils
 
 import (
 	"bytes"
-	"fmt"
 )
 
 func SliceString(cipher string, n int) []string {
@@ -22,13 +21,9 @@ func SliceStringByInt(cipher string, keySize int, messageSize int) []string {
 	size := messageSize / keySize
 	strArray := make([]string, size+1)
 
-	fmt.Println(keySize)
-
 	for i := 1; i <= size; i++ {
 		cropped := i * keySize
 		initial := cropped - keySize
-
-		fmt.Println(cropped, initial, i)
 
 		strArray[i] = cipher[initial:cropped]
 	}
@@ -107,25 +102,92 @@ func ModStringWithDistance(start string, distance int) string {
 	countAlphabet[5] = "f"
 	countAlphabet[6] = "g"
 	countAlphabet[7] = "h"
-	countAlphabet[9] = "i"
-	countAlphabet[10] = "j"
-	countAlphabet[11] = "k"
-	countAlphabet[12] = "l"
-	countAlphabet[13] = "m"
-	countAlphabet[14] = "n"
-	countAlphabet[15] = "o"
-	countAlphabet[16] = "p"
-	countAlphabet[17] = "q"
-	countAlphabet[18] = "r"
-	countAlphabet[19] = "s"
-	countAlphabet[20] = "t"
-	countAlphabet[21] = "u"
+	countAlphabet[8] = "i"
+	countAlphabet[9] = "j"
+	countAlphabet[10] = "k"
+	countAlphabet[11] = "l"
+	countAlphabet[12] = "m"
+	countAlphabet[13] = "n"
+	countAlphabet[14] = "o"
+	countAlphabet[15] = "p"
+	countAlphabet[16] = "q"
+	countAlphabet[17] = "r"
+	countAlphabet[18] = "s"
+	countAlphabet[19] = "t"
+	countAlphabet[20] = "u"
+	countAlphabet[21] = "v"
 	countAlphabet[22] = "w"
 	countAlphabet[23] = "x"
 	countAlphabet[24] = "y"
 	countAlphabet[25] = "z"
 
 	sum := (cLetter[start] + distance) % 26
+
+	return countAlphabet[sum]
+}
+
+func ModStringWithDistanceInvert(start string, distance int) string {
+	var cLetter = make(map[string]int)
+	cLetter["a"] = 0
+	cLetter["b"] = 1
+	cLetter["c"] = 2
+	cLetter["d"] = 3
+	cLetter["e"] = 4
+	cLetter["f"] = 5
+	cLetter["g"] = 6
+	cLetter["h"] = 7
+	cLetter["i"] = 8
+	cLetter["j"] = 9
+	cLetter["k"] = 10
+	cLetter["l"] = 11
+	cLetter["m"] = 12
+	cLetter["n"] = 13
+	cLetter["o"] = 14
+	cLetter["p"] = 15
+	cLetter["q"] = 16
+	cLetter["r"] = 17
+	cLetter["s"] = 18
+	cLetter["t"] = 19
+	cLetter["u"] = 20
+	cLetter["v"] = 21
+	cLetter["w"] = 22
+	cLetter["x"] = 23
+	cLetter["y"] = 24
+	cLetter["z"] = 25
+
+	var countAlphabet = make(map[int]string)
+	countAlphabet[0] = "a"
+	countAlphabet[1] = "b"
+	countAlphabet[2] = "c"
+	countAlphabet[3] = "d"
+	countAlphabet[4] = "e"
+	countAlphabet[5] = "f"
+	countAlphabet[6] = "g"
+	countAlphabet[7] = "h"
+	countAlphabet[8] = "i"
+	countAlphabet[9] = "j"
+	countAlphabet[10] = "k"
+	countAlphabet[11] = "l"
+	countAlphabet[12] = "m"
+	countAlphabet[13] = "n"
+	countAlphabet[14] = "o"
+	countAlphabet[15] = "p"
+	countAlphabet[16] = "q"
+	countAlphabet[17] = "r"
+	countAlphabet[18] = "s"
+	countAlphabet[19] = "t"
+	countAlphabet[20] = "u"
+	countAlphabet[21] = "v"
+	countAlphabet[22] = "w"
+	countAlphabet[23] = "x"
+	countAlphabet[24] = "y"
+	countAlphabet[25] = "z"
+
+	sum := ((26 + cLetter[start]) - distance) % 26
+
+	if distance == 7 {
+		// fmt.Println("aquii", cLetter[start], sum)
+	}
 
 	return countAlphabet[sum]
 }
