@@ -1,6 +1,9 @@
 package ic
 
-import "fmt"
+import (
+	"bytes"
+	"sort"
+)
 
 func CalcFrequencyLetters(cipher string) map[string]int {
 	var countAlphabet = make(map[string]int)
@@ -40,21 +43,46 @@ func CalcFrequencyLetters(cipher string) map[string]int {
 	return countAlphabet
 }
 
-func CalcIC(freqLetters map[string]int, size int) map[string]float64 {
+func CalcIC(freqLetters map[string]int, size int) (map[string]float64, float64) {
 	var calcIC = make(map[string]float64)
 	var cipherSum = float64(size * (size - 1))
+	var ic float64
 
 	for k, v := range freqLetters {
 		var sumLetter = float64(v * (v - 1))
 
 		result := sumLetter / cipherSum
+		ic += result
 		calcIC[k] = result
 	}
 
-	for key, value := range calcIC {
-		fmt.Println(key)
-		fmt.Println(value)
+	return calcIC, ic
+}
+
+func FirstLetterFrequency(arrayCiphers []string, m int) string {
+	var firstString string
+	var buffer bytes.Buffer
+
+	for _, cipherSliced := range arrayCiphers {
+		buffer.WriteString(string(cipherSliced[0]))
+	}
+	firstString = buffer.String()
+	freqLetters := CalcFrequencyLetters(firstString)
+
+	type kv struct {
+		Key   string
+		Value int
 	}
 
-	return calcIC
+	var ss []kv
+
+	for k, v := range freqLetters {
+		ss = append(ss, kv{k, v})
+	}
+
+	sort.Slice(ss, func(i, j int) bool {
+		return ss[i].Value > ss[j].Value
+	})
+
+	return ss[0].Key
 }
