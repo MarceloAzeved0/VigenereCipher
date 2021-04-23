@@ -17,15 +17,15 @@ func SliceString(cipher string, n int) []string {
 	return strArray
 }
 
-func SliceStringByInt(cipher string, keySize int, messageSize int) []string {
-	size := messageSize / keySize
-	strArray := make([]string, size+1)
+func SliceStringByInt(cipher string, keySize int) []string {
+	var strArray []string
 
-	for i := 1; i <= size; i++ {
+	for i := 1; i <= len(cipher); i++ {
 		cropped := i * keySize
 		initial := cropped - keySize
-
-		strArray[i] = cipher[initial:cropped]
+		if cropped < len(cipher) {
+			strArray = append(strArray, cipher[initial:cropped])
+		}
 	}
 
 	return strArray
@@ -185,23 +185,8 @@ func ModStringWithDistanceInvert(start string, distance int) string {
 
 	sum := ((26 + cLetter[start]) - distance) % 26
 
-	if distance == 7 {
-		// fmt.Println("aquii", cLetter[start], sum)
-	}
-
 	return countAlphabet[sum]
 }
-
-// func ReturnMaxValueMap(icLetters map[string]float64) float64 {
-// 	var maxValue = make(map[string]int)
-// 	maxValue["a"] = 0.0
-// 	for _, v := range icLetters {
-// 		if maxValue <= v {
-// 			max = v
-// 		}
-// 	}
-// 	return max
-// }
 
 func Check(e error) {
 	if e != nil {

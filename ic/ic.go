@@ -45,15 +45,17 @@ func CalcFrequencyLetters(cipher string) map[string]int {
 func CalcIC(freqLetters map[string]int, size int) (map[string]float64, float64) {
 	var calcIC = make(map[string]float64)
 	var cipherSum = float64(size * (size - 1))
+	var acc float64
 	var ic float64
 
 	for k, v := range freqLetters {
 		var sumLetter = float64(v * (v - 1))
 
-		result := sumLetter / cipherSum
-		ic += result
-		calcIC[k] = result
+		acc += sumLetter
+		calcIC[k] = sumLetter
 	}
+
+	ic += acc / cipherSum
 
 	return calcIC, ic
 }
