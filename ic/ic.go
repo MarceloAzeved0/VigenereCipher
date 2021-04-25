@@ -30,7 +30,7 @@ func GetSizeKey(encryptedMessage string, attempts int) int {
 
 			_, icCalc := CalcIC(letters, len(cipherSliced))
 
-			if icCalc > 0.070 && icCalc < 0.075 {
+			if icCalc >= 0.070 && icCalc <= 0.075 {
 				lstKeys = append(lstKeys, sizeIC{m, icCalc})
 			}
 		}
@@ -58,7 +58,7 @@ func GetKeyOfMessage(strParsed []string) string {
 	}
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Digite a possível chave escolhendo uma das duas letras apresentadas em cada palavra: ex: avelino\n")
+	fmt.Println("\nDigite a possível chave escolhendo uma das duas letras apresentadas em cada palavra: ex: avelino\n")
 	fmt.Println("-> " + firstKey)
 	fmt.Println("-> " + secondKey + "\n")
 	choosedKey, _ := reader.ReadString('\n')
