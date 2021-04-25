@@ -55,7 +55,7 @@ func GetKeyOfMessage(strParsed []string) string {
 	}
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Digite a possível chave escolhendo uma das duas letras apresentadas:")
+	fmt.Println("Digite a possível chave escolhendo uma das duas letras apresentadas em cada palavra: ex: avelino\n")
 	fmt.Println("-> " + firstKey)
 	fmt.Println("-> " + secondKey + "\n")
 	choosedKey, _ := reader.ReadString('\n')

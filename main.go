@@ -57,7 +57,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		fmt.Println(">>> Salvo com sucesso saída gerada em ./output/output.txt")
+		fmt.Println(">>> Salvo com sucesso saída gerada em: [PATH]/output/output.txt")
 
 	}
 }
