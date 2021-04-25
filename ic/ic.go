@@ -1,11 +1,98 @@
 package ic
 
 import (
+	"VigenereCipher/utils"
+	"bufio"
+	"bytes"
+	"fmt"
+	"math"
+	"os"
+	"reflect"
 	"sort"
 )
 
-func getSizeKey(encryptedMessage string, attempts int) {
+type sizeIC struct {
+	size int
+	ic   float64
+}
 
+func GetSizeKey(encryptedMessage string, attempts int) int {
+	var lstKeys []sizeIC
+
+	for m := 1; m <= attempts; m++ {
+		arrayCiphers := utils.SliceString(encryptedMessage, m)
+
+		for _, cipherSliced := range arrayCiphers {
+			letters := CalcFrequencyLetters(cipherSliced)
+
+			_, icCalc := CalcIC(letters, len(cipherSliced))
+
+			if icCalc > 0.070 && icCalc < 0.075 {
+				lstKeys = append(lstKeys, sizeIC{m, icCalc})
+			}
+		}
+	}
+
+	sort.Slice(lstKeys, func(i, j int) bool {
+		return math.Abs(lstKeys[i].ic-0.070) < math.Abs(lstKeys[j].ic-0.073)
+	})
+	return lstKeys[0].size
+}
+
+func GetKeyOfMessage(strParsed []string) string {
+	var firstKey string
+	for _, newTexts := range strParsed {
+		firstLetter := FirstLetterFrequency(string(newTexts))
+		letterPosition := reflect.ValueOf(utils.CalcDistance2Chars("a", firstLetter))
+		firstKey += reflect.Indirect(letterPosition).FieldByName("letter").String()
+	}
+
+	var secondKey string
+	for _, newTexts := range strParsed {
+		firstLetter := FirstLetterFrequency(string(newTexts))
+		letterPosition := reflect.ValueOf(utils.CalcDistance2Chars("e", firstLetter))
+		secondKey += reflect.Indirect(letterPosition).FieldByName("letter").String()
+	}
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Digite a possível chave escolhendo uma das duas letras apresentadas:")
+	fmt.Println("-> " + firstKey)
+	fmt.Println("-> " + secondKey + "\n")
+	choosedKey, _ := reader.ReadString('\n')
+	fmt.Println("\nChave escolhida >>> " + choosedKey)
+
+	return choosedKey
+}
+
+func Decrypt(choosedKey string, strParsed []string, sizeMessage int, keySize int) string {
+	var strFinal []string
+	for l, newTexts := range strParsed {
+		firstLetter := FirstLetterFrequency(string(newTexts))
+		getLetterChoosed := reflect.ValueOf(utils.CalcDistance2Chars(string(choosedKey[l]), firstLetter))
+		letterChoosed := reflect.Indirect(getLetterChoosed).FieldByName("letter").String()
+		letterPosition := reflect.ValueOf(utils.CalcDistance2Chars(letterChoosed, firstLetter))
+		position := reflect.Indirect(letterPosition).FieldByName("position").Int()
+		var buffer bytes.Buffer
+
+		for _, letter := range string(newTexts) {
+			newString := utils.ModStringWithDistanceInvert(string(letter), int(position))
+			buffer.WriteString(newString)
+		}
+
+		strFinal = append(strFinal, buffer.String())
+	}
+
+	var strResponse string
+
+	for p := 0; p < sizeMessage/keySize; p++ {
+		for j := 0; j < keySize; j++ {
+			strResponse = strResponse + string((strFinal[j][p]))
+		}
+	}
+
+	// fmt.Println(strResponse)
+
+	return strResponse
 }
 
 func CalcFrequencyLetters(cipher string) map[string]int {
