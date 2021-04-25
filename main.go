@@ -1,4 +1,5 @@
 // Author: Marcelo Bernardy de Azevedo
+// Email: marcelo.bernardy@edu.pucrs.br
 
 package main
 
