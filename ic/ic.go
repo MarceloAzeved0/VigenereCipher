@@ -4,6 +4,10 @@ import (
 	"sort"
 )
 
+func getSizeKey(encryptedMessage string, attempts int) {
+
+}
+
 func CalcFrequencyLetters(cipher string) map[string]int {
 	var countAlphabet = make(map[string]int)
 	countAlphabet["a"] = 0

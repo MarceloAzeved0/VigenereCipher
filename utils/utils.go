@@ -4,6 +4,11 @@ import (
 	"bytes"
 )
 
+type LetterPosition struct {
+	letter   string
+	position int
+}
+
 func SliceString(cipher string, n int) []string {
 	strArray := make([]string, n)
 	for j := 0; j < n; j++ {
@@ -31,7 +36,7 @@ func SliceStringByInt(cipher string, keySize int) []string {
 	return strArray
 }
 
-func CalcDistance2Chars(start string, finish string) int {
+func CalcDistance2Chars(start string, finish string) LetterPosition {
 	var countAlphabet = make(map[string]int)
 	countAlphabet["a"] = 0
 	countAlphabet["b"] = 1
@@ -60,8 +65,37 @@ func CalcDistance2Chars(start string, finish string) int {
 	countAlphabet["y"] = 24
 	countAlphabet["z"] = 25
 
+	var positionAlphabet = make(map[int]string)
+	positionAlphabet[0] = "a"
+	positionAlphabet[1] = "b"
+	positionAlphabet[2] = "c"
+	positionAlphabet[3] = "d"
+	positionAlphabet[4] = "e"
+	positionAlphabet[5] = "f"
+	positionAlphabet[6] = "g"
+	positionAlphabet[7] = "h"
+	positionAlphabet[8] = "i"
+	positionAlphabet[9] = "j"
+	positionAlphabet[10] = "k"
+	positionAlphabet[11] = "l"
+	positionAlphabet[12] = "m"
+	positionAlphabet[13] = "n"
+	positionAlphabet[14] = "o"
+	positionAlphabet[15] = "p"
+	positionAlphabet[16] = "q"
+	positionAlphabet[17] = "r"
+	positionAlphabet[18] = "s"
+	positionAlphabet[19] = "t"
+	positionAlphabet[20] = "u"
+	positionAlphabet[21] = "v"
+	positionAlphabet[22] = "w"
+	positionAlphabet[23] = "x"
+	positionAlphabet[24] = "y"
+	positionAlphabet[25] = "z"
+
 	sum := 26 + countAlphabet[finish] - countAlphabet[start]
-	return sum % 26
+
+	return LetterPosition{positionAlphabet[sum%26], sum % 26}
 }
 
 func ModStringWithDistance(start string, distance int) string {
